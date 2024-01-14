@@ -7,5 +7,5 @@ export default {
 	dbCredentials: {
 		connectionString: process.env.DATABASE_URL as string,
 	},
-	tablesFilter: ['attendance-app_*'],
+	tablesFilter: ['attendance_app_*'],
 } satisfies Config;
