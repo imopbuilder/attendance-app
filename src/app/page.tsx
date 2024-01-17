@@ -35,7 +35,7 @@ export default function pome() {
 							</SignedOut>
 							<SignedIn>
 								<ClerkLoading>
-									<Skeleton className='size-10 rounded-full' />
+									<Skeleton className='w-44 h-10 rounded-md mx-auto' />
 								</ClerkLoading>
 								<ClerkLoaded>
 									<Button asChild>
