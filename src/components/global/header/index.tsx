@@ -1,23 +1,42 @@
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { UserButton } from '@clerk/nextjs';
+import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import { ThemeToggle } from '../theme-toggle';
 
 export default function Header() {
 	return (
-		<header className='border-b px-[4%]'>
-			<div className='max-w-maxi mx-auto h-16 flex items-center justify-between'>
+		<header className='border-b'>
+			<div className='mx-5 h-16 flex items-center justify-between'>
 				<div className='flex items-center justify-center'>
 					<Link href={'/'} className='font-semibold'>
 						Attandence app
 					</Link>
 				</div>
-				<nav className='flex items-center justify-center sm:gap-5 gap-3'>
+				<nav className='flex items-center justify-center sm:gap-4 gap-3'>
 					<ThemeToggle />
-					<Suspense fallback={<Skeleton className='size-10 rounded-full' />}>
-						<UserButton />
-					</Suspense>
+					<SignedOut>
+						<ul className='flex items-center justify-center gap-4'>
+							<li>
+								<Button asChild variant='secondary' size='lg'>
+									<Link href='/auth/sign-in'>Sign in</Link>
+								</Button>
+							</li>
+							<li>
+								<Button asChild size='lg'>
+									<Link href='/auth/sign-up'>Sign up</Link>
+								</Button>
+							</li>
+						</ul>
+					</SignedOut>
+					<SignedIn>
+						<ClerkLoading>
+							<Skeleton className='size-10 rounded-full' />
+						</ClerkLoading>
+						<ClerkLoaded>
+							<UserButton afterSignOutUrl='/' />
+						</ClerkLoaded>
+					</SignedIn>
 				</nav>
 			</div>
 		</header>
