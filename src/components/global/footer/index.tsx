@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
 	return (
 		<footer className='border-t border-dashed'>
-			<div className='max-w-maxi mx-auto py-3'>
+			<div className='mx-5 py-3'>
 				<div>
 					<p className='text-muted-foreground text-sm'>
 						Crafted by{' '}
