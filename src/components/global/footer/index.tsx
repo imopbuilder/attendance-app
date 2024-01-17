@@ -10,7 +10,7 @@ export default function Footer() {
 						Crafted by{' '}
 						<Button className='p-0 text-muted-foreground font-medium hover:text-foreground' variant='link' asChild>
 							<Link href={'/'} target='_black' rel='noreferrer'>
-								rahu1gg
+								imopbuilder
 							</Link>
 						</Button>
 					</p>
