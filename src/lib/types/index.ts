@@ -1,16 +1,12 @@
 import { z } from 'zod';
 
 const processEnvSchema = z.object({
-	// Server
-	SITE_URL: z.string(),
-
-	// Client
-	NEXT_PUBLIC_SITE_URL: z.string(),
-
 	// Drizzle
 	DATABASE_URL: z.string(),
 
 	// Clerk
+	NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
+	CLERK_SECRET_KEY: z.string(),
 });
 processEnvSchema.parse(process.env);
 
