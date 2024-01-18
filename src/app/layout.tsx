@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 
 import { ThemeProvider } from '@/client/providers/theme-provider';
 import { TRPCReactProvider } from '@/client/providers/trpc-react-provider';
+import { Toaster } from '@/components/ui/sonner';
 import { ClerkProvider } from '@clerk/nextjs';
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default async function RootLayout({
 					<TRPCReactProvider cookies={cookies().toString()}>
 						<ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
 							{children}
+							<Toaster />
 						</ThemeProvider>
 					</TRPCReactProvider>
 				</ClerkProvider>
