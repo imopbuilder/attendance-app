@@ -109,6 +109,24 @@
 	body[style] {
 		margin-right: 0px !important;
 	}
+
+	/* Chrome, Safari, Edge, Opera */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	/* Firefox */
+	input[type="number"] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+		font-family: var(--font-aldrich) !important;
+
+		&::placeholder {
+			font-family: var(--font-nunito);
+		}
+	}
 }
 
 @layer base {
