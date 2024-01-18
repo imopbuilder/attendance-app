@@ -1,5 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { subjects } from '@/server/db/schema/subject';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 export const subjectRouter = createTRPCRouter({
@@ -9,13 +10,18 @@ export const subjectRouter = createTRPCRouter({
 				subjectName: z.string(),
 				totalClasses: z.number(),
 				attendedClasses: z.number(),
-				userId: z.string(),
 				previousClasses: z.string(),
 			}),
 		)
 		.mutation(async ({ input, ctx }) => {
 			try {
-				const subject = await ctx.db.insert(subjects).values(input).returning();
+				const { userId } = ctx.session;
+				const subject = await ctx.db
+					.insert(subjects)
+					.values({ ...input, userId })
+					.returning();
+
+				revalidatePath('/dashboard');
 
 				return subject[0];
 			} catch (err) {
