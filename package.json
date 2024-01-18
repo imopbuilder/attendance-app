@@ -10,8 +10,10 @@
 		"format": "pnpm biome format --write ./src",
 		"lint": "pnpm biome lint ./src --apply",
 		"check": "pnpm biome check ./src --apply",
-		"db:push": "drizzle-kit push:mysql",
-		"db:studio": "drizzle-kit studio"
+		"db:introspect": "drizzle-kit introspect:pg",
+		"db:push": "drizzle-kit push:pg",
+		"db:generate": "drizzle-kit generate:pg",
+		"db:studio": "pnpm drizzle-kit studio --port 4800 --host 127.0.0.1"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^4.29.3",
