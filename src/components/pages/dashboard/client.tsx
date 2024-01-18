@@ -1,20 +1,9 @@
 'use client';
 
-import { useMediaQuery } from '@/client/hooks/use-meida-query.hook';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import {
-	Drawer,
-	DrawerClose,
-	DrawerContent,
-	DrawerDescription,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerTitle,
-	DrawerTrigger,
-} from '@/components/ui/drawer';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { NEW_SUBJECT_DRAWER_HEADER } from '@/constants/app';
 import { cn } from '@/lib/utils/cn';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,48 +14,23 @@ import { z } from 'zod';
 
 export function NewSubjectDrawer() {
 	const [open, setOpen] = useState(false);
-	const isDesktop = useMediaQuery('(min-width: 768px)');
-
-	if (isDesktop) {
-		return (
-			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogTrigger asChild>
-					<Button className='gap-2.5'>
-						<BadgePlus size={16} />
-						<span>New Subject</span>
-					</Button>
-				</DialogTrigger>
-				<DialogContent className='sm:max-w-[425px]'>
-					<DialogHeader>
-						<DialogTitle>{NEW_SUBJECT_DRAWER_HEADER.title}</DialogTitle>
-						<DialogDescription>{NEW_SUBJECT_DRAWER_HEADER.description}</DialogDescription>
-					</DialogHeader>
-					<NewSubjectForm />
-				</DialogContent>
-			</Dialog>
-		);
-	}
 
 	return (
-		<Drawer open={open} onOpenChange={setOpen}>
-			<DrawerTrigger asChild>
+		<Sheet open={open} onOpenChange={setOpen}>
+			<SheetTrigger asChild>
 				<Button className='gap-2.5'>
 					<BadgePlus size={16} />
+					<span className='hidden md:inline-block'>New Subject</span>
 				</Button>
-			</DrawerTrigger>
-			<DrawerContent>
-				<DrawerHeader className='text-left'>
-					<DrawerTitle>{NEW_SUBJECT_DRAWER_HEADER.title}</DrawerTitle>
-					<DrawerDescription>{NEW_SUBJECT_DRAWER_HEADER.description}</DrawerDescription>
-				</DrawerHeader>
-				<NewSubjectForm className='px-4' />
-				<DrawerFooter className='pt-2'>
-					<DrawerClose asChild>
-						<Button variant='outline'>Cancel</Button>
-					</DrawerClose>
-				</DrawerFooter>
-			</DrawerContent>
-		</Drawer>
+			</SheetTrigger>
+			<SheetContent>
+				<SheetHeader className='sm:text-left'>
+					<SheetTitle>{NEW_SUBJECT_DRAWER_HEADER.title}</SheetTitle>
+					<SheetDescription>{NEW_SUBJECT_DRAWER_HEADER.description}</SheetDescription>
+				</SheetHeader>
+				<NewSubjectForm />
+			</SheetContent>
+		</Sheet>
 	);
 }
 
@@ -95,7 +59,7 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className={cn('space-y-5', className)}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className={cn('space-y-5 pt-5', className)}>
 				<FormField
 					control={form.control}
 					name='subjectName'
