@@ -1,0 +1,76 @@
+{
+  "id": "7999dc95-ba34-4d2e-a071-df10104e555f",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "attendance_app_subjects": {
+      "name": "attendance_app_subjects",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "subject-name": {
+          "name": "subject-name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user-id": {
+          "name": "user-id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total-classes": {
+          "name": "total-classes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "attended-classes": {
+          "name": "attended-classes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "previous-classes": {
+          "name": "previous-classes",
+          "type": "char(5)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "user-id": {
+          "name": "user-id",
+          "columns": [
+            "user-id"
+          ],
+          "isUnique": false
+        },
+        "id": {
+          "name": "id",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
