@@ -1,10 +1,10 @@
 // Subject schema
 // id - longInt - uniqueIndex
-// subjectName - string
-// userId - string - index
-// totalClasses - number
-// attendedClasses - number
-// previousFiveClasses - string
+// subjectName - string - 🍀
+// userId - string - index - 🍀
+// totalClasses - number - 🍀
+// attendedClasses - number - 🍀
+// previousClasses - string - 🍀
 
 import { char, index, integer, serial, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
 import { pgTable } from '.';
