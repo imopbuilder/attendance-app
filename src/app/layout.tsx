@@ -8,10 +8,7 @@ import { TRPCReactProvider } from '@/client/providers/trpc-react-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { ClerkProvider } from '@clerk/nextjs';
 
-const inter = Inter({
-	subsets: ['latin'],
-	variable: '--font-sans',
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
 	title: 'Create T3 App',
@@ -25,7 +22,7 @@ export default async function RootLayout({
 }) {
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<body className={`font-sans ${inter.variable}`}>
+			<body className={`${inter.className}`}>
 				<ClerkProvider>
 					<TRPCReactProvider cookies={cookies().toString()}>
 						<ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
