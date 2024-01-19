@@ -4,8 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut } from '@clerk/nextjs';
 import { LayoutDashboard } from 'lucide-react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Fragment } from 'react';
+
+export const metadata: Metadata = {
+	title: 'Attendance app - Home',
+};
 
 export default function pome() {
 	return (

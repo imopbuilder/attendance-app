@@ -3,8 +3,13 @@ import Header from '@/components/global/header';
 import { SubjectsLoader, UserSubjects } from '@/components/pages/dashboard';
 import { NewSubjectDrawer } from '@/components/pages/dashboard/client';
 import { auth } from '@clerk/nextjs';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Fragment, Suspense } from 'react';
+
+export const metadata: Metadata = {
+	title: 'Dashboard',
+};
 
 export default function page() {
 	const session = auth();
