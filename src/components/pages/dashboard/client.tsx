@@ -8,9 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { NEW_SUBJECT_DRAWER_HEADER } from '@/constants/app';
 import { cn } from '@/lib/utils/cn';
+import { toTitleCase } from '@/lib/utils/to-title-case';
+import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BadgePlus } from 'lucide-react';
-import { ComponentProps } from 'react';
+import { BadgePlus, Trash2 } from 'lucide-react';
+import { ComponentProps, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -171,5 +173,52 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 				</div>
 			</form>
 		</Form>
+	);
+}
+
+export function DeleteSubjectBtn({ id, subjectName }: Subject) {
+	const mutation = api.subject.deleteSubject.useMutation();
+	const [warning, setWarning] = useState(false);
+
+	function handleClick() {
+		if (warning) {
+			const toastId = toast.loading(`Deleting subject... ${toTitleCase(subjectName)}`);
+			mutation.mutate(
+				{ id },
+				{
+					onSuccess: (data) => {
+						toast.success('Subject deleted successfully', {
+							id: toastId,
+							description: toTitleCase(data!.subjectName),
+						});
+					},
+					onError: () => {
+						toast.error('Failed to delete subject!', {
+							id: toastId,
+							description: toTitleCase(subjectName),
+						});
+					},
+				},
+			);
+			return;
+		}
+
+		toast.warning(`Confirm delete subject - ${toTitleCase(subjectName)}`, {
+			onDismiss: () => setWarning(false),
+			onAutoClose: () => setWarning(false),
+		});
+		setWarning(true);
+	}
+
+	return (
+		<Button
+			className={`p-1.5 h-auto w-auto group hover:bg-destructive ${warning ? 'animate-pulse' : ''}`}
+			variant='ghost'
+			size='icon'
+			onClick={handleClick}
+			disabled={mutation.isLoading}
+		>
+			<Trash2 size={16} className='text-muted-foreground group-hover:text-destructive-foreground duration-200' />
+		</Button>
 	);
 }

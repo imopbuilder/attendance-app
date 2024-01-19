@@ -5,8 +5,9 @@ import { db } from '@/server/db';
 import { Subject, subjects } from '@/server/db/schema/subject';
 import { SignedInAuthObject } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
-import { Pencil, Settings, Trash2 } from 'lucide-react';
+import { Pencil, Settings } from 'lucide-react';
 import { Fragment } from 'react';
+import { DeleteSubjectBtn } from './client';
 
 export function SubjectsLoader() {
 	return (
@@ -111,9 +112,7 @@ function SubjectCard(props: Subject) {
 					<Button className='p-1.5 h-auto w-auto group mr-1' variant='ghost' size='icon'>
 						<Settings size={16} className='text-muted-foreground group-hover:text-foreground duration-200' />
 					</Button>
-					<Button className='p-1.5 h-auto w-auto group hover:bg-destructive' variant='ghost' size='icon'>
-						<Trash2 size={16} className='text-muted-foreground group-hover:text-destructive-foreground duration-200' />
-					</Button>
+					<DeleteSubjectBtn {...props} />
 				</div>
 			</div>
 		</div>
