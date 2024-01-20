@@ -1,13 +1,10 @@
-import '@/styles/main.scss';
-
-import { Inter } from 'next/font/google';
-import { cookies } from 'next/headers';
-
 import { ThemeProvider } from '@/client/providers/theme-provider';
 import { TRPCReactProvider } from '@/client/providers/trpc-react-provider';
 import { Toaster } from '@/components/ui/sonner';
+import '@/styles/main.scss';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,7 +25,7 @@ export default async function RootLayout({
 		<html lang='en' suppressHydrationWarning>
 			<body className={`${inter.className}`}>
 				<ClerkProvider>
-					<TRPCReactProvider cookies={cookies().toString()}>
+					<TRPCReactProvider>
 						<ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
 							{children}
 							<Toaster />

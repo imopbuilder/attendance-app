@@ -22,7 +22,7 @@ export const subjectRouter = createTRPCRouter({
 					.values({ ...input, userId })
 					.returning();
 
-				revalidatePath('/dashboard');
+				revalidatePath('/dashboard', 'page');
 
 				return val[0];
 			} catch (err) {
@@ -40,7 +40,7 @@ export const subjectRouter = createTRPCRouter({
 			try {
 				const val = await ctx.db.delete(subjects).where(eq(subjects.id, input.id)).returning();
 
-				revalidatePath('/dashboard');
+				revalidatePath('/dashboard', 'page');
 				return val[0];
 			} catch (err) {
 				throw new Error('Failed to delete subject!');

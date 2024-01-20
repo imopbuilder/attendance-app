@@ -38,3 +38,5 @@ export default function page() {
 		</Fragment>
 	);
 }
+
+export const dynamic = 'force-dynamic';
