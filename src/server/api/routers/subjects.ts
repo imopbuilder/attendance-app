@@ -1,7 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { subjects } from '@/server/db/schema/subject';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 export const subjectRouter = createTRPCRouter({
@@ -22,8 +21,6 @@ export const subjectRouter = createTRPCRouter({
 					.values({ ...input, userId })
 					.returning();
 
-				revalidatePath('/dashboard', 'page');
-
 				return val[0];
 			} catch (err) {
 				throw new Error('Failed to create new subject!');
@@ -40,7 +37,6 @@ export const subjectRouter = createTRPCRouter({
 			try {
 				const val = await ctx.db.delete(subjects).where(eq(subjects.id, input.id)).returning();
 
-				revalidatePath('/dashboard', 'page');
 				return val[0];
 			} catch (err) {
 				throw new Error('Failed to delete subject!');

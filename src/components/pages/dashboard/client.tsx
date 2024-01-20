@@ -12,6 +12,7 @@ import { toTitleCase } from '@/lib/utils/to-title-case';
 import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BadgePlus, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { ComponentProps, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -62,6 +63,7 @@ const formSchema = z.object({
 });
 
 function NewSubjectForm({ className }: ComponentProps<'form'>) {
+	const router = useRouter();
 	const setloading = useNewSubject((state) => state.setloading);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -73,6 +75,7 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 	});
 	const mutation = api.subject.createSubject.useMutation({
 		onSuccess: () => {
+			router.refresh();
 			form.reset({ subjectName: '', totalClasses: 0, attendedClasses: 0 });
 		},
 		onSettled: () => {
@@ -177,7 +180,10 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 }
 
 export function DeleteSubjectBtn({ id, subjectName }: Subject) {
-	const mutation = api.subject.deleteSubject.useMutation();
+	const router = useRouter();
+	const mutation = api.subject.deleteSubject.useMutation({
+		onSuccess: () => router.refresh(),
+	});
 	const [warning, setWarning] = useState(false);
 
 	function handleClick() {
