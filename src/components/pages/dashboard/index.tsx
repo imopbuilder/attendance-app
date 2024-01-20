@@ -114,6 +114,8 @@ function SubjectCard(props: Subject) {
 				</div>
 				<div className='w-[100px] aspect-square'>
 					<DoughnutChart
+						width={100}
+						height={100}
 						data={data}
 						options={{
 							cutout: 39,
