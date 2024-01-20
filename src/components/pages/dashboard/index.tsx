@@ -8,7 +8,7 @@ import { SignedInAuthObject } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 import { Pencil, Settings, Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
-import { DeleteSubjectBtn } from './client';
+import { AbsentClassBtn, DeleteSubjectBtn, PresentClassBtn } from './client';
 
 export function SubjectsLoader() {
 	return (
@@ -104,12 +104,8 @@ function SubjectCard(props: Subject) {
 						</span>
 					</p>
 					<div className='mt-2'>
-						<Button className='h-auto py-0.5 hover:text-muted-foreground' type='button' variant='secondary' size='sm'>
-							Present
-						</Button>
-						<Button className='h-auto py-0.5 ml-3 hover:text-muted-foreground' type='button' variant='secondary' size='sm'>
-							Absent
-						</Button>
+						<PresentClassBtn {...props} />
+						<AbsentClassBtn {...props} />
 					</div>
 				</div>
 				<div className='w-[100px] aspect-square'>

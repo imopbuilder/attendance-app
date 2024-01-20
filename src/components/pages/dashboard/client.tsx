@@ -228,3 +228,77 @@ export function DeleteSubjectBtn({ id, subjectName }: Subject) {
 		</Button>
 	);
 }
+
+export function PresentClassBtn({ id, totalClasses, attendedClasses }: Subject) {
+	const router = useRouter();
+	const mutation = api.subject.presentClass.useMutation({
+		onSuccess: () => {
+			router.refresh();
+		},
+	});
+
+	function handleClick() {
+		const toastId = toast.loading('Updating subject...');
+		mutation.mutate(
+			{ id, totalClasses, attendedClasses },
+			{
+				onSuccess: () => {
+					toast.success('Updated subject successfully', { id: toastId });
+				},
+				onError: () => {
+					toast.success('Failed to update subject!', { id: toastId });
+				},
+			},
+		);
+	}
+
+	return (
+		<Button
+			className='h-auto py-0.5 hover:text-muted-foreground'
+			type='button'
+			variant='secondary'
+			size='sm'
+			onClick={handleClick}
+			disabled={mutation.isLoading}
+		>
+			Present
+		</Button>
+	);
+}
+
+export function AbsentClassBtn({ id, totalClasses }: Subject) {
+	const router = useRouter();
+	const mutation = api.subject.absentClass.useMutation({
+		onSuccess: () => {
+			router.refresh();
+		},
+	});
+
+	function handleClick() {
+		const toastId = toast.loading('Updating subject...');
+		mutation.mutate(
+			{ id, totalClasses },
+			{
+				onSuccess: () => {
+					toast.success('Updated subject successfully', { id: toastId });
+				},
+				onError: () => {
+					toast.success('Failed to update subject!', { id: toastId });
+				},
+			},
+		);
+	}
+
+	return (
+		<Button
+			className='h-auto py-0.5 ml-3 hover:text-muted-foreground'
+			type='button'
+			variant='secondary'
+			size='sm'
+			onClick={handleClick}
+			disabled={mutation.isLoading}
+		>
+			Absent
+		</Button>
+	);
+}

@@ -42,4 +42,47 @@ export const subjectRouter = createTRPCRouter({
 				throw new Error('Failed to delete subject!');
 			}
 		}),
+
+	presentClass: protectedProcedure
+		.input(
+			z.object({
+				id: z.number(),
+				attendedClasses: z.number(),
+				totalClasses: z.number(),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			const { id, attendedClasses, totalClasses } = input;
+
+			try {
+				await ctx.db
+					.update(subjects)
+					.set({ attendedClasses: attendedClasses + 1, totalClasses: totalClasses + 1 })
+					.where(eq(subjects.id, id));
+				return true;
+			} catch (err) {
+				throw new Error('Failed to update subject!');
+			}
+		}),
+
+	absentClass: protectedProcedure
+		.input(
+			z.object({
+				id: z.number(),
+				totalClasses: z.number(),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			const { id, totalClasses } = input;
+
+			try {
+				await ctx.db
+					.update(subjects)
+					.set({ totalClasses: totalClasses + 1 })
+					.where(eq(subjects.id, id));
+				return true;
+			} catch (err) {
+				throw new Error('Failed to update subject!');
+			}
+		}),
 });
