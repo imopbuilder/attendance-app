@@ -2,6 +2,7 @@
 
 import { useNewSubject } from '@/client/store/dashboard/new-subject';
 import { api } from '@/client/trpc';
+import { DoughnutChart } from '@/components/global/chart/doughnut-chart';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -11,9 +12,11 @@ import { cn } from '@/lib/utils/cn';
 import { toTitleCase } from '@/lib/utils/to-title-case';
 import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Chart } from 'chart.js';
 import { BadgePlus, Trash2 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -301,4 +304,30 @@ export function AbsentClassBtn({ id, totalClasses }: Subject) {
 			Absent
 		</Button>
 	);
+}
+
+export function AttendanceChart({ className, centerText, ...restProps }: ComponentPropsWithoutRef<typeof DoughnutChart> & { centerText?: string }) {
+	const { resolvedTheme } = useTheme();
+
+	function percentageLabel() {
+		if (!centerText) return { id: 'no-label' };
+
+		return {
+			id: 'percentageLabel',
+			afterDatasetsDraw(charts: Chart<'doughnut', number[], unknown>) {
+				const { ctx } = charts;
+				const { x, y } = charts.getDatasetMeta(0).data[0]!;
+
+				// Text
+				ctx.save();
+				ctx.font = 'bold 13px sans-serif';
+				ctx.fillStyle = resolvedTheme === 'dark' ? 'hsl(240 5% 64.9%)' : 'hsl(240 3.8% 46.1%)';
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				ctx.fillText(centerText, x, y);
+			},
+		};
+	}
+
+	return <DoughnutChart className={cn('', className)} plugins={[percentageLabel()]} {...restProps} />;
 }

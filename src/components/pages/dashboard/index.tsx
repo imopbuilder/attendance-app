@@ -1,4 +1,3 @@
-import { DoughnutChart } from '@/components/global/chart/doughnut-chart';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils/cn';
@@ -8,7 +7,7 @@ import { SignedInAuthObject } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 import { Pencil, Settings, Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
-import { AbsentClassBtn, DeleteSubjectBtn, PresentClassBtn } from './client';
+import { AbsentClassBtn, AttendanceChart, DeleteSubjectBtn, PresentClassBtn } from './client';
 
 export function SubjectsLoader() {
 	return (
@@ -109,18 +108,15 @@ function SubjectCard(props: Subject) {
 					</div>
 				</div>
 				<div className='w-[100px] aspect-square'>
-					<DoughnutChart
+					<AttendanceChart
 						width={100}
 						height={100}
 						data={data}
 						options={{
 							cutout: 39,
-							plugins: {
-								legend: {
-									display: false,
-								},
-							},
+							plugins: { legend: { display: false } },
 						}}
+						centerText={`${Math.round((attendedClasses * 100) / totalClasses)}%`}
 					/>
 				</div>
 			</div>
