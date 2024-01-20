@@ -56,14 +56,19 @@ export function NewSubjectDrawer() {
 	);
 }
 
-const formSchema = z.object({
-	subjectName: z
-		.string()
-		.min(2, { message: 'Subject name must contain at least 2 characters' })
-		.max(50, { message: 'Subject name must contain at most 50 characters' }),
-	totalClasses: z.coerce.number(),
-	attendedClasses: z.coerce.number(),
-});
+const formSchema = z
+	.object({
+		subjectName: z
+			.string()
+			.min(2, { message: 'Subject name must contain at least 2 characters' })
+			.max(50, { message: 'Subject name must contain at most 50 characters' }),
+		totalClasses: z.coerce.number(),
+		attendedClasses: z.coerce.number(),
+	})
+	.refine((data) => data.attendedClasses <= data.totalClasses, {
+		message: 'Attended classes should be less than totalclasses',
+		path: ['attendedClasses'],
+	});
 
 function NewSubjectForm({ className }: ComponentProps<'form'>) {
 	const router = useRouter();
