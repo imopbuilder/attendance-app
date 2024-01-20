@@ -1,6 +1,7 @@
 'use client';
 
 import { useNewSubject } from '@/client/store/dashboard/new-subject';
+import { useUpdateSubject } from '@/client/store/dashboard/update-subject';
 import { api } from '@/client/trpc';
 import { DoughnutChart } from '@/components/global/chart/doughnut-chart';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,7 @@ import { toTitleCase } from '@/lib/utils/to-title-case';
 import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Chart } from 'chart.js';
-import { BadgePlus, Trash2 } from 'lucide-react';
+import { BadgePlus, Pencil, Trash2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react';
@@ -66,7 +67,7 @@ const formSchema = z
 		attendedClasses: z.coerce.number(),
 	})
 	.refine((data) => data.attendedClasses <= data.totalClasses, {
-		message: 'Attended classes should be less than totalclasses',
+		message: 'Attended classes should be less than total classes',
 		path: ['attendedClasses'],
 	});
 
@@ -335,4 +336,141 @@ export function AttendanceChart({ className, centerText, ...restProps }: Compone
 	}
 
 	return <DoughnutChart className={cn('', className)} plugins={[percentageLabel()]} {...restProps} />;
+}
+
+export function EditSubjectDrawer(props: Subject) {
+	const loading = useUpdateSubject((state) => state.loading);
+
+	return (
+		<Sheet>
+			<SheetTrigger asChild>
+				<Button className='p-1.5 h-auto w-auto ml-auto mr-1 group' variant='ghost' size='icon'>
+					<Pencil size={16} className='text-muted-foreground group-hover:text-foreground duration-200' />
+				</Button>
+			</SheetTrigger>
+			<SheetContent
+				className='flex items-stretch justify-start flex-col'
+				onEscapeKeyDown={(e) => loading && e.preventDefault()}
+				onPointerDown={(e) => loading && e.preventDefault()}
+				onInteractOutside={(e) => loading && e.preventDefault()}
+				loading={loading}
+			>
+				<SheetHeader className='text-left'>
+					<SheetTitle>Edit subject</SheetTitle>
+					<SheetDescription>You can edit your subject</SheetDescription>
+				</SheetHeader>
+				<EditSubjectForm {...props} />
+				<SheetFooter className='mt-auto'>
+					<SheetClose asChild>
+						<Button variant='secondary' size='lg' className='w-full' disabled={loading}>
+							Close
+						</Button>
+					</SheetClose>
+				</SheetFooter>
+			</SheetContent>
+		</Sheet>
+	);
+}
+
+const editSubjectFormSchema = z
+	.object({
+		subjectName: z
+			.string()
+			.min(2, { message: 'Subject name must contain at least 2 characters' })
+			.max(50, { message: 'Subject name must contain at most 50 characters' }),
+		totalClasses: z.coerce.number(),
+		attendedClasses: z.coerce.number(),
+	})
+	.refine((data) => data.attendedClasses <= data.totalClasses, {
+		message: 'Attended classes should be less than total classes',
+		path: ['attendedClasses'],
+	});
+
+function EditSubjectForm({ id, subjectName, previousClasses, attendedClasses, totalClasses }: Subject) {
+	const form = useForm<z.infer<typeof editSubjectFormSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			subjectName,
+			totalClasses,
+			attendedClasses,
+		},
+	});
+
+	function onSubmit(values: z.infer<typeof editSubjectFormSchema>) {
+		console.log(values);
+		const toastId = toast.loading('Updating subject...');
+	}
+
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5 pt-2'>
+				<FormField
+					control={form.control}
+					name='subjectName'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Subject</FormLabel>
+							<FormControl>
+								<Input placeholder='Power systems' autoComplete='off' {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='totalClasses'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Total classes</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='0'
+									type='number'
+									inputMode='numeric'
+									autoComplete='off'
+									{...field}
+									value={field.value ?? ''}
+									onChange={(e) => {
+										if (e.target.value === '') return field.onChange(undefined);
+										field.onChange(Number(e.target.value));
+									}}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='attendedClasses'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Attended classes</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='0'
+									type='number'
+									inputMode='numeric'
+									autoComplete='off'
+									{...field}
+									value={field.value ?? ''}
+									onChange={(e) => {
+										if (e.target.value === '') return field.onChange(undefined);
+										field.onChange(Number(e.target.value));
+									}}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<div className='pt-1'>
+					<Button type='submit' className='w-full' size='lg' disabled={false}>
+						Update Subject
+					</Button>
+				</div>
+			</form>
+		</Form>
+	);
 }
