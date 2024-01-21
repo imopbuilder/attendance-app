@@ -21,8 +21,7 @@ export default function page() {
 			<Header />
 			<main className='relative'>
 				<section>
-					<div className='min-h-hvh mx-5 relative py-5'>
-						<h2 className='text-2xl font-semibold text-center'>Your subjects</h2>
+					<div className='min-h-hvh mx-5 relative'>
 						<div className='max-w-2xl mx-auto py-4'>
 							<Suspense fallback={<SubjectsLoader />}>
 								<UserSubjects session={session} />
