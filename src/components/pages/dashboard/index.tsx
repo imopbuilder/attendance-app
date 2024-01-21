@@ -116,7 +116,12 @@ function AllSubjectsCard({ subjects }: { subjects: Subject[] }) {
 	return (
 		<Fragment>
 			<div className='p-4 rounded-lg border mt-4 max-w-2xl mx-auto'>
-				<p className='text-center text-xs text-muted-foreground pb-4'>Attendance: </p>
+				<p className='text-center text-xs text-muted-foreground pb-4'>
+					Attendance:{' '}
+					<span className='font-medium'>
+						{totalAttendedClasses}/{totalClassesVal}
+					</span>
+				</p>
 				<div className='flex items-center justify-between sm:items-start flex-col-reverse sm:flex-row gap-y-4'>
 					<div className='space-y-2'>
 						{subjects.map((val) => (
@@ -167,7 +172,7 @@ function SubjectCard(props: Subject) {
 			<div className='flex items-start justify-between mb-4'>
 				<div>
 					<h2 className='font-medium capitalize'>{subjectName}</h2>
-					<p className='text-muted-foreground text-sm mt-1 mb-2'>
+					<p className='text-muted-foreground text-xs mt-1.5 mb-2.5'>
 						Attendance:{' '}
 						<span className='font-medium'>
 							{attendedClasses}/{totalClasses}
