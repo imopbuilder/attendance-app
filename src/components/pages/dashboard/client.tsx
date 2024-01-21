@@ -8,13 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { NEW_SUBJECT_DRAWER_HEADER } from '@/constants/app';
+import { COLORS, NEW_SUBJECT_DRAWER_HEADER } from '@/constants/app';
 import { cn } from '@/lib/utils/cn';
 import { toTitleCase } from '@/lib/utils/to-title-case';
 import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Chart } from 'chart.js';
-import { BadgePlus, Pencil, Trash2 } from 'lucide-react';
+import { BadgePlus, Check, Pencil, Trash2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react';
@@ -65,6 +65,7 @@ const formSchema = z
 			.max(50, { message: 'Subject name must contain at most 50 characters' }),
 		totalClasses: z.coerce.number(),
 		attendedClasses: z.coerce.number(),
+		color: z.string(),
 	})
 	.refine((data) => data.attendedClasses <= data.totalClasses, {
 		message: 'Attended classes should be less than total classes',
@@ -80,6 +81,7 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 			subjectName: '',
 			totalClasses: 0,
 			attendedClasses: 0,
+			color: COLORS.value[0],
 		},
 	});
 	const mutation = api.subject.createSubject.useMutation({
@@ -176,6 +178,28 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 							</FormControl>
 							<FormMessage />
 						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='color'
+					render={({ field }) => (
+						<FormControl>
+							<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
+								{COLORS.value.map((val) => (
+									<button
+										key={val}
+										style={{ backgroundColor: `${val}`, ...(field.value === val ? { outline: `2px solid ${val}` } : {}) }}
+										className={cn('size-6 rounded-full outline-offset-2 inline-flex items-center justify-center')}
+										type='button'
+										{...field}
+										onClick={() => field.onChange(val)}
+									>
+										{field.value === val ? <Check size={14} className='text-background' strokeWidth={3} /> : null}
+									</button>
+								))}
+							</div>
+						</FormControl>
 					)}
 				/>
 				<div className='pt-1'>

@@ -11,6 +11,7 @@ export const subjectRouter = createTRPCRouter({
 				totalClasses: z.number(),
 				attendedClasses: z.number(),
 				previousClasses: z.string(),
+				color: z.string(),
 			}),
 		)
 		.mutation(async ({ input, ctx }) => {
