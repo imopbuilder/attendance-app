@@ -150,7 +150,7 @@ function AllSubjectsCard({ subjects }: { subjects: Subject[] }) {
 }
 
 function SubjectCard(props: Subject) {
-	const { subjectName, totalClasses, attendedClasses, previousClasses } = props;
+	const { subjectName, totalClasses, attendedClasses, color } = props;
 
 	const data = {
 		labels: ['Present', 'Absent'],
@@ -158,8 +158,7 @@ function SubjectCard(props: Subject) {
 			{
 				label: 'Classes',
 				data: [attendedClasses, totalClasses === 0 ? 2 : totalClasses - attendedClasses],
-				// data: [45, 55],
-				backgroundColor: ['#8b5cf6', '#71717a'],
+				backgroundColor: [color, '#71717a'],
 				borderRadius: 100,
 				borderWidth: 0,
 				spacing: 2,
@@ -199,18 +198,7 @@ function SubjectCard(props: Subject) {
 			<hr />
 			<div className='mt-3 flex items-end justify-between'>
 				<div className='space-x-2 pl-1.5'>
-					{previousClasses
-						.toLowerCase()
-						.split('')
-						.map((val, index) => (
-							<span
-								key={`${index}`}
-								className={cn(
-									'size-2.5 inline-block rounded-full relative -top-0.5',
-									val === 'p' ? 'bg-green-300' : val === 'a' ? 'bg-yellow-200' : 'bg-muted-foreground',
-								)}
-							/>
-						))}
+					<span style={{ backgroundColor: `${color}` }} className='size-4 rounded-full inline-block' />
 				</div>
 				<div>
 					<EditSubjectDrawer {...props} />
