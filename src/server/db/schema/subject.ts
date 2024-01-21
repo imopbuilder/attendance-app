@@ -18,6 +18,7 @@ export const subjects = pgTable(
 		totalClasses: integer('total-classes').notNull(),
 		attendedClasses: integer('attended-classes').notNull(),
 		previousClasses: char('previous-classes', { length: 5 }).notNull(),
+		color: char('color', { length: 7 }).notNull(),
 	},
 	(table) => {
 		return {
