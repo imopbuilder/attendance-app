@@ -412,6 +412,8 @@ const editSubjectFormSchema = z
 	});
 
 function EditSubjectForm({ id, subjectName, previousClasses, attendedClasses, totalClasses, color }: Subject) {
+	const router = useRouter();
+	const setloading = useUpdateSubject((state) => state.setloading);
 	const form = useForm<z.infer<typeof editSubjectFormSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -421,10 +423,31 @@ function EditSubjectForm({ id, subjectName, previousClasses, attendedClasses, to
 			color,
 		},
 	});
+	const mutation = api.subject.editSubject.useMutation({
+		onSuccess: (data) => {
+			router.refresh();
+			form.reset({ ...data });
+		},
+		onSettled: () => {
+			setloading(false);
+		},
+	});
 
 	function onSubmit(values: z.infer<typeof editSubjectFormSchema>) {
-		console.log(values);
+		setloading(true);
 		const toastId = toast.loading('Updating subject...');
+
+		mutation.mutate(
+			{ id, ...values },
+			{
+				onSuccess: () => {
+					toast.success('Subject updated successfully', { id: toastId });
+				},
+				onError: () => {
+					toast.error('Failed to shorten', { id: toastId });
+				},
+			},
+		);
 	}
 
 	return (

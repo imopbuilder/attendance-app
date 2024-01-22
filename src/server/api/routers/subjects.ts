@@ -86,4 +86,30 @@ export const subjectRouter = createTRPCRouter({
 				throw new Error('Failed to update subject!');
 			}
 		}),
+
+	editSubject: protectedProcedure
+		.input(
+			z
+				.object({
+					id: z.number(),
+					subjectName: z.string(),
+					totalClasses: z.number(),
+					attendedClasses: z.number(),
+					color: z.string(),
+				})
+				.partial({ subjectName: true, totalClasses: true, attendedClasses: true, color: true }),
+		)
+		.mutation(async ({ input, ctx }) => {
+			try {
+				const val = await ctx.db
+					.update(subjects)
+					.set({ ...input })
+					.where(eq(subjects.id, input.id))
+					.returning();
+
+				return val[0];
+			} catch (err) {
+				throw new Error('Failed to edit subject!');
+			}
+		}),
 });
