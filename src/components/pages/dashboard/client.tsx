@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { COLORS, NEW_SUBJECT_DRAWER_HEADER } from '@/constants/app';
 import { cn } from '@/lib/utils/cn';
+import { randomEmoji } from '@/lib/utils/random-emoji';
 import { toTitleCase } from '@/lib/utils/to-title-case';
 import { Subject } from '@/server/db/schema/subject';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +18,7 @@ import { Chart } from 'chart.js';
 import { BadgePlus, Check, Pencil, Trash2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import { ComponentProps, ComponentPropsWithoutRef, useState } from 'react';
+import { ComponentProps, ComponentPropsWithoutRef, useState, type MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -549,5 +550,25 @@ function EditSubjectForm({ id, subjectName, attendedClasses, totalClasses, color
 				</div>
 			</form>
 		</Form>
+	);
+}
+
+interface RandomEmojiProps extends ComponentPropsWithoutRef<'button'> {
+	emoji: string;
+}
+
+export function RandomEmoji({ emoji, onClick, ...restProps }: RandomEmojiProps) {
+	const [clientEmoji, setClientEmoji] = useState<string | null>(null);
+
+	function handleClick(e: MouseEvent<HTMLButtonElement>) {
+		setClientEmoji(randomEmoji());
+
+		onClick?.(e);
+	}
+
+	return (
+		<button type='button' {...restProps} onClick={handleClick}>
+			{clientEmoji ?? emoji}
+		</button>
 	);
 }

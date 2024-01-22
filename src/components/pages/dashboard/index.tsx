@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Skeleton } from '@/components/ui/skeleton';
 import { COLORS } from '@/constants/app';
+import { randomEmoji } from '@/lib/utils/random-emoji';
 import { toTitleCase } from '@/lib/utils/to-title-case';
 import { db } from '@/server/db';
 import { Subject, subjects } from '@/server/db/schema/subject';
@@ -9,7 +10,7 @@ import { SignedInAuthObject } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 import { ChevronsUpDown, Pencil, Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
-import { AbsentClassBtn, AttendanceChart, DeleteSubjectBtn, EditSubjectDrawer, PresentClassBtn } from './client';
+import { AbsentClassBtn, AttendanceChart, DeleteSubjectBtn, EditSubjectDrawer, PresentClassBtn, RandomEmoji } from './client';
 
 export function SubjectsLoader() {
 	return (
@@ -192,8 +193,9 @@ function SubjectCard(props: Subject) {
 			</div>
 			<hr />
 			<div className='mt-3 flex items-end justify-between'>
-				<div className='space-x-2 pl-1.5'>
+				<div className='space-x-2 pl-1.5 flex items-center justify-start gap-1'>
 					<span style={{ backgroundColor: `${color}` }} className='size-4 rounded-full inline-block' />
+					<RandomEmoji emoji={randomEmoji()} />
 				</div>
 				<div>
 					<EditSubjectDrawer {...props} />
