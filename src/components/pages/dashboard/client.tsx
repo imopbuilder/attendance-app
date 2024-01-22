@@ -101,7 +101,7 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 		});
 
 		mutation.mutate(
-			{ ...values, previousClasses: 'NNNNN' },
+			{ ...values },
 			{
 				onSuccess: (data) => {
 					toast.success('Subject created successfully', {
@@ -185,7 +185,7 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 					name='color'
 					render={({ field }) => (
 						<FormItem>
-							<FormItem>Color</FormItem>
+							<FormLabel>Color</FormLabel>
 							<FormControl>
 								<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
 									{COLORS.value.map((val) => (
@@ -414,7 +414,7 @@ const editSubjectFormSchema = z
 		path: ['attendedClasses'],
 	});
 
-function EditSubjectForm({ id, subjectName, previousClasses, attendedClasses, totalClasses, color }: Subject) {
+function EditSubjectForm({ id, subjectName, attendedClasses, totalClasses, color }: Subject) {
 	const router = useRouter();
 	const setloading = useUpdateSubject((state) => state.setloading);
 	const form = useForm<z.infer<typeof editSubjectFormSchema>>({

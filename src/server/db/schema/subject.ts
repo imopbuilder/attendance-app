@@ -4,7 +4,6 @@
 // userId - string - index - 🍀
 // totalClasses - number - 🍀
 // attendedClasses - number - 🍀
-// previousClasses - string - 🍀
 
 import { char, index, integer, serial, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
 import { pgTable } from '.';
@@ -17,7 +16,6 @@ export const subjects = pgTable(
 		userId: varchar('user-id', { length: 50 }).notNull(),
 		totalClasses: integer('total-classes').notNull(),
 		attendedClasses: integer('attended-classes').notNull(),
-		previousClasses: char('previous-classes', { length: 5 }).notNull(),
 		color: char('color', { length: 7 }).notNull(),
 	},
 	(table) => {

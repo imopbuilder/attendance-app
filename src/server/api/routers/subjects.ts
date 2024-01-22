@@ -10,7 +10,6 @@ export const subjectRouter = createTRPCRouter({
 				subjectName: z.string(),
 				totalClasses: z.number(),
 				attendedClasses: z.number(),
-				previousClasses: z.string(),
 				color: z.string(),
 			}),
 		)
