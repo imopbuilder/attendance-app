@@ -184,22 +184,25 @@ function NewSubjectForm({ className }: ComponentProps<'form'>) {
 					control={form.control}
 					name='color'
 					render={({ field }) => (
-						<FormControl>
-							<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
-								{COLORS.value.map((val) => (
-									<button
-										key={val}
-										style={{ backgroundColor: `${val}`, ...(field.value === val ? { outline: `2px solid ${val}` } : {}) }}
-										className={cn('size-6 rounded-full outline-offset-2 inline-flex items-center justify-center')}
-										type='button'
-										{...field}
-										onClick={() => field.onChange(val)}
-									>
-										{field.value === val ? <Check size={14} className='text-background' strokeWidth={3} /> : null}
-									</button>
-								))}
-							</div>
-						</FormControl>
+						<FormItem>
+							<FormItem>Color</FormItem>
+							<FormControl>
+								<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
+									{COLORS.value.map((val) => (
+										<button
+											key={val}
+											style={{ backgroundColor: `${val}`, ...(field.value === val ? { outline: `2px solid ${val}` } : {}) }}
+											className={cn('size-6 rounded-full outline-offset-2 inline-flex items-center justify-center')}
+											type='button'
+											{...field}
+											onClick={() => field.onChange(val)}
+										>
+											{field.value === val ? <Check size={14} className='text-background' strokeWidth={3} /> : null}
+										</button>
+									))}
+								</div>
+							</FormControl>
+						</FormItem>
 					)}
 				/>
 				<div className='pt-1'>
@@ -518,22 +521,25 @@ function EditSubjectForm({ id, subjectName, previousClasses, attendedClasses, to
 					control={form.control}
 					name='color'
 					render={({ field }) => (
-						<FormControl>
-							<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
-								{COLORS.value.map((val) => (
-									<button
-										key={val}
-										style={{ backgroundColor: `${val}`, ...(field.value === val ? { outline: `2px solid ${val}` } : {}) }}
-										className={cn('size-6 rounded-full outline-offset-2 inline-flex items-center justify-center')}
-										type='button'
-										{...field}
-										onClick={() => field.onChange(val)}
-									>
-										{field.value === val ? <Check size={14} className='text-background' strokeWidth={3} /> : null}
-									</button>
-								))}
-							</div>
-						</FormControl>
+						<FormItem>
+							<FormLabel>Color</FormLabel>
+							<FormControl>
+								<div className='flex items-start justify-start flex-wrap gap-3.5 mt-2 px-[3px]'>
+									{COLORS.value.map((val) => (
+										<button
+											key={val}
+											style={{ backgroundColor: `${val}`, ...(field.value === val ? { outline: `2px solid ${val}` } : {}) }}
+											className={cn('size-6 rounded-full outline-offset-2 inline-flex items-center justify-center')}
+											type='button'
+											{...field}
+											onClick={() => field.onChange(val)}
+										>
+											{field.value === val ? <Check size={14} className='text-background' strokeWidth={3} /> : null}
+										</button>
+									))}
+								</div>
+							</FormControl>
+						</FormItem>
 					)}
 				/>
 				<div className='pt-1'>
