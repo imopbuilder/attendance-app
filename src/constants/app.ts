@@ -4,7 +4,7 @@ export const NEW_SUBJECT_DRAWER_HEADER = {
 } as const;
 
 export const COLORS = {
-	default: 'hsl(var(--text-muted-foreground))',
+	default: 'hsl(var(--muted))',
 	value: [
 		'#aa00ff',
 		'#80d8fe',

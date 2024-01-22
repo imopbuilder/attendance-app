@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils/cn';
+import { COLORS } from '@/constants/app';
 import { toTitleCase } from '@/lib/utils/to-title-case';
 import { db } from '@/server/db';
 import { Subject, subjects } from '@/server/db/schema/subject';
@@ -39,12 +39,7 @@ export function SubjectsLoader() {
 							<hr />
 							<div className='mt-3 flex items-end justify-between'>
 								<div className='space-x-2 pl-1.5'>
-									{'NNNNN'
-										.toLowerCase()
-										.split('')
-										.map((_, index) => (
-											<span key={`${index}`} className={cn('size-2.5 inline-block rounded-full relative -top-0.5', 'bg-muted-foreground')} />
-										))}
+									<span style={{ backgroundColor: `${COLORS.default}` }} className='size-4 rounded-full inline-block' />
 								</div>
 								<div>
 									<Button className='p-1.5 h-auto w-auto ml-auto mr-1 group' variant='ghost' size='icon'>
@@ -126,7 +121,7 @@ function AllSubjectsCard({ subjects }: { subjects: Subject[] }) {
 					<div className='space-y-2'>
 						{subjects.map((val) => (
 							<div key={val.id} className='flex items-center justify-start gap-4'>
-								<span className='inline-block size-4 rounded-full bg-muted-foreground' />
+								<span style={{ backgroundColor: val.color }} className='inline-block size-4 rounded-full' />
 								<p className='capitalize text-sm text-muted-foreground'>{val.subjectName}</p>
 							</div>
 						))}
