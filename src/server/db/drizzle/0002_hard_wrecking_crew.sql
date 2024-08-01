@@ -1,0 +1,1 @@
+ALTER TABLE "attendance_app_subjects" DROP COLUMN IF EXISTS "previous-classes";

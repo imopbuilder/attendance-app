@@ -15,6 +15,13 @@
       "when": 1705848576008,
       "tag": "0001_clean_eddie_brock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1709530485272,
+      "tag": "0002_hard_wrecking_crew",
+      "breakpoints": true
     }
   ]
 }
